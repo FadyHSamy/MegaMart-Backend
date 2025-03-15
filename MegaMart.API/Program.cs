@@ -11,13 +11,24 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapScalarApiReference();
+    app.MapOpenApi();
+    app.MapScalarApiReference("/scalar", options =>
+    {
+        options
+            .WithTheme(ScalarTheme.Kepler)
+            .WithDarkModeToggle(true)
+            .WithClientButton(true);
+        options.OpenApiRoutePattern = "/openapi/v1.json"; // Explicit OpenAPI endpoint
+        options.Title = "AuthService API Documentation";
+    });
 }
 
 app.UseHttpsRedirection();
