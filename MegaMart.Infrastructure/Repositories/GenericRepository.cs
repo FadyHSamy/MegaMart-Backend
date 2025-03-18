@@ -55,7 +55,7 @@ namespace MegaMart.Infrastructure.Repositories
             var query = _Context.Set<T>().AsQueryable();
             query = includes.Aggregate(query, (current, item) => current.Include(item));
 
-            var entity = await query.FirstOrDefaultAsync(x => EF.Property<int>(x, "id") == id);
+            var entity = await query.FirstOrDefaultAsync(x => EF.Property<int>(x, "Id") == id);
             return entity;
 
         }

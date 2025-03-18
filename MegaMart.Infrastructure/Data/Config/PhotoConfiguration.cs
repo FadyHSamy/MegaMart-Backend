@@ -13,12 +13,8 @@ namespace MegaMart.Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<Photo> builder)
         {
-            builder.HasData(new Photo()
-            {
-                Id = 3,
-                ImageName = "PhotoNameTest",
-                ProductId = 3
-            });
+            builder.Property(x => x.ProductId).IsRequired();
+            builder.Property(x => x.ImageByteArray).IsRequired();
         }
     }
 }

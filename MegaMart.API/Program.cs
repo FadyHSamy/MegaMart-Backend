@@ -26,8 +26,8 @@ if (app.Environment.IsDevelopment())
             .WithTheme(ScalarTheme.Kepler)
             .WithDarkModeToggle(true)
             .WithClientButton(true);
-        options.OpenApiRoutePattern = "/openapi/v1.json"; // Explicit OpenAPI endpoint
-        options.Title = "AuthService API Documentation";
+        options.OpenApiRoutePattern = "/openapi/v1.json";
+        options.Title = "MegaMart Service";
     });
 }
 

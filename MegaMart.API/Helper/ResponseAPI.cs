@@ -1,5 +1,9 @@
 ﻿namespace MegaMart.API.Helper
 {
+    public enum ResponseStatusCode
+    {
+
+    }
     public class ResponseAPI
     {
         public ResponseAPI(int statusCode, string message = null)
