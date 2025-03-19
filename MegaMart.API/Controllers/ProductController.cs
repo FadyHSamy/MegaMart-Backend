@@ -3,6 +3,7 @@ using MegaMart.API.Helper;
 using MegaMart.Core.DTO;
 using MegaMart.Core.Entities.Product;
 using MegaMart.Core.Interfaces;
+using MegaMart.Core.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,18 +16,20 @@ namespace MegaMart.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GetAllProductParams productParams)
         {
             try
             {
-                var products = await _work.ProductRepository
-                    .GetAllAsync(x => x.Category, x => x.Photos);
+                var products = await _work.ProductRepository.GetAllAsync(productParams);
 
-                var result = _mapper.Map<List<ProductDTO>>(products);
+                var totalCount = await _work.ProductRepository.CountAsync();
 
-                if (products is null) return BadRequest(new ResponseAPI(400));
-
-                return Ok(result);
+                return Ok(new Pagination<ProductDTO>(
+                    productParams.PageNumber,
+                    productParams.PageSize,
+                    totalCount,
+                    products)
+                );
 
             }
             catch (Exception ex)

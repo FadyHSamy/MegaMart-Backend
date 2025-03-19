@@ -65,5 +65,8 @@ namespace MegaMart.Infrastructure.Repositories
             _Context.Entry(entity).State = EntityState.Modified;
             await _Context.SaveChangesAsync();
         }
+
+        public async Task<int> CountAsync()
+            => await _Context.Set<T>().CountAsync();
     }
 }

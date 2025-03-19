@@ -8,6 +8,7 @@ using MegaMart.Core.DTO;
 using MegaMart.Core.Entities.Product;
 using MegaMart.Core.Interfaces;
 using MegaMart.Core.Services;
+using MegaMart.Core.Shared;
 using MegaMart.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,40 @@ namespace MegaMart.Infrastructure.Repositories
             _context = context;
             _mapper = mapper;
             _imageManagementService = imageManagementService;
+        }
+
+        public async Task<IEnumerable<ProductDTO>> GetAllAsync(GetAllProductParams productParams)
+        {
+            var query = _context.Products
+                .Include(m => m.Category)
+                .Include(m => m.Photos)
+                .AsNoTracking();
+
+            //Filttring By Category Id
+            if (productParams.CategoryId.HasValue)
+            {
+                query = query.Where(m => m.CategoryId == productParams.CategoryId);
+            }
+
+            if (!string.IsNullOrEmpty(productParams.Sort))
+            {
+                query = productParams.Sort switch
+                {
+                    "PriceAsc" => query.OrderBy(m => m.NewPrice),
+                    "PriceDesc" => query.OrderByDescending(m => m.NewPrice),
+                    _ => query.OrderBy(m => m.Name),
+                };
+            }
+
+            
+
+            query = query.Skip((productParams.PageSize) * (productParams.PageNumber) - 1).Take(productParams.PageSize);
+
+
+            var products = await query.ToListAsync();
+
+            var result = _mapper.Map<List<ProductDTO>>(products);
+            return result;
         }
 
         public async Task<bool> AddAsync(AddProductDTO productDto)

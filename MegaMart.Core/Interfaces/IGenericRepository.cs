@@ -16,5 +16,6 @@ namespace MegaMart.Core.Interfaces
         Task<T> GetByIdAsync(int id);
         Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
         Task UpdateAsync(T entity);
+        Task<int> CountAsync();
     }
 }
