@@ -35,7 +35,20 @@ namespace MegaMart.Infrastructure.Repositories
                 .Include(m => m.Photos)
                 .AsNoTracking();
 
-            //Filttring By Category Id
+            //filtering By Name
+            if (!string.IsNullOrEmpty(productParams.Search))
+            {
+                var searchWords = productParams.Search.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                query = query.Where(product => searchWords.All(word =>
+                    product.Name.ToLower().Contains(word.ToLower()) ||
+                    product.Description.ToLower().Contains(word.ToLower()) ||
+                    product.Category.Name.ToLower().Contains(word.ToLower())
+
+                ));
+            }
+
+            //Filtering By Category id
             if (productParams.CategoryId.HasValue)
             {
                 query = query.Where(m => m.CategoryId == productParams.CategoryId);
@@ -51,9 +64,9 @@ namespace MegaMart.Infrastructure.Repositories
                 };
             }
 
-            
 
-            query = query.Skip((productParams.PageSize) * (productParams.PageNumber) - 1).Take(productParams.PageSize);
+
+            query = query.Skip((productParams.PageSize) * ((productParams.PageNumber) - 1)).Take(productParams.PageSize);
 
 
             var products = await query.ToListAsync();
