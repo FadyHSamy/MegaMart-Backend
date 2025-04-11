@@ -15,7 +15,7 @@ namespace MegaMart.API.Controllers
         [HttpGet("GetNotFound")]
         public async Task<IActionResult> GetNotFound()
         {
-            return NotFound();
+            return  NotFound();
         }
     }
 }

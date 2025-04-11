@@ -58,6 +58,7 @@ namespace MegaMart.Infrastructure.Repositories
             {
                 query = productParams.Sort switch
                 {
+                    "Name" => query.OrderBy(m => m.Name),
                     "PriceAsc" => query.OrderBy(m => m.NewPrice),
                     "PriceDesc" => query.OrderByDescending(m => m.NewPrice),
                     _ => query.OrderBy(m => m.Name),

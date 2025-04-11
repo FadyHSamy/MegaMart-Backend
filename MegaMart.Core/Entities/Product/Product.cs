@@ -13,6 +13,9 @@ namespace MegaMart.Core.Entities.Product
         public string Description { get; set; }
         public decimal NewPrice { get; set; }
         public decimal OldPrice { get; set; }
+        public decimal Rating { get; set; } = 0;
+        public int NumberOfReviews { get; set; } = 0;
+
         public virtual List<Photo> Photos { get; set; }
         public int CategoryId { get; set; }
         [ForeignKey(nameof(CategoryId))]

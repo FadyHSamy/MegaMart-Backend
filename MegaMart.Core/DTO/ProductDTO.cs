@@ -16,6 +16,8 @@ namespace MegaMart.Core.DTO
         public string Description { get; set; }
         public decimal NewPrice { get; set; }
         public decimal OldPrice { get; set; }
+        public decimal Rating { get; set; } 
+        public int NumberOfReviews { get; set; }
         public virtual List<PhotoDTO> Photos { get; set; }
         public string CategoryName { get; set; }
     }

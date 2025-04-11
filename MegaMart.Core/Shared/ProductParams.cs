@@ -11,8 +11,8 @@ namespace MegaMart.Core.Shared
         public string? Sort { get; set; }
         public int? CategoryId { get; set; }
         public string? Search { get; set; }
-        public int MaxPageSize { get; set; } = 5;
-        private int _pageSize { get; set; } = 3;
+        public int MaxPageSize { get; set; } = 10;
+        private int _pageSize { get; set; } = 5;
 
         public int PageSize
         {
